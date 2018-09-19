@@ -1,0 +1,15 @@
+﻿  Game.cpp
+c:\users\david\desktop\year 4\ai games\projects\sfml project 1\sfml project 1 sprite movement\game.cpp(55): warning C4244: '-=': conversion from 'double' to 'sf::Int32', possible loss of data
+c:\users\david\desktop\year 4\ai games\projects\sfml project 1\sfml project 1 sprite movement\game.cpp(124): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\david\desktop\year 4\ai games\projects\sfml project 1\sfml project 1 sprite movement\game.cpp(125): warning C4244: 'initializing': conversion from 'int' to 'float', possible loss of data
+c:\users\david\desktop\year 4\ai games\projects\sfml project 1\sfml project 1 sprite movement\game.cpp(134): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+c:\users\david\desktop\year 4\ai games\projects\sfml project 1\sfml project 1 sprite movement\game.cpp(144): warning C4244: 'argument': conversion from 'T' to 'float', possible loss of data
+          with
+          [
+              T=unsigned int
+          ]
+  SFML Project 1 Sprite Movement.vcxproj -> C:\Users\david\Desktop\Year 4\AI Games\Projects\SFML project 1\Debug\SFML Project 1 Sprite Movement.exe
