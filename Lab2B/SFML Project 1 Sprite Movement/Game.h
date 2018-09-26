@@ -14,7 +14,6 @@ class Game
 public:
 	Game();
 	void checkBoundaries(sf::Sprite &s);
-	void checkCollisions(sf::Sprite &p, sf::Sprite &e);
 	void run();
 	void update(double dt);
 	void render();
@@ -24,14 +23,19 @@ public:
 	// main window
 	sf::RenderWindow m_window;
 private:
-	int m_score = 0;
-
 	Player m_player;
-	Enemy m_enemy;
+	Enemy m_seekEnemy;
+	Enemy m_fleeEnemy;
+	Enemy m_wanderEnemy;
+	Enemy m_arriveEnemy;
 
-	sf::Font m_font;
-	sf::Text m_text;
 	sf::Sprite m_backgroundImageSprite;
 	sf::Texture m_backgroundImageTexture;
+
+	sf::Font m_font;
+	sf::Text m_seekText;
+	sf::Text m_wanderText;
+	sf::Text m_fleeText;
+	sf::Text m_arriveText;
 
 };

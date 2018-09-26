@@ -21,8 +21,11 @@ static double const MS_PER_UPDATE = 10.0;
 Game::Game()
 	: 
 	m_window(sf::VideoMode(1440, 900, 32), "SFML Playground", sf::Style::Default),
-	m_player(670,450,0),
-	m_enemy(870,450,0)
+	m_player(270,450,0),
+	m_seekEnemy(570,150,0, "SEEK"),
+	m_fleeEnemy(570, 450,0,"FLEE"),
+	m_wanderEnemy(570,300,0, "WANDER"),
+	m_arriveEnemy(570,600,0,"ARRIVE")
 {
 	if (!m_font.loadFromFile("arial.ttf"))
 	{
@@ -38,8 +41,30 @@ Game::Game()
 		m_backgroundImageSprite.setTexture(m_backgroundImageTexture);
 	}
 	m_backgroundImageSprite.setScale(2, 2);
-	m_text.setFont(m_font);
-	m_text.setCharacterSize(50);
+
+	m_seekText.setFont(m_font);
+	m_seekText.setCharacterSize(50);
+	m_seekText.setFillColor(sf::Color::Red);
+	m_seekText.setString("SEEK");
+	m_seekText.setPosition(0, 0);
+
+	m_wanderText.setFont(m_font);
+	m_wanderText.setCharacterSize(50);
+	m_wanderText.setFillColor(sf::Color::Blue);
+	m_wanderText.setString("WANDER");
+	m_wanderText.setPosition(0, 51);
+
+	m_fleeText.setFont(m_font);
+	m_fleeText.setCharacterSize(50);
+	m_fleeText.setFillColor(sf::Color::Green);
+	m_fleeText.setString("FLEE");
+	m_fleeText.setPosition(0, 102);
+
+	m_arriveText.setFont(m_font);
+	m_arriveText.setCharacterSize(50);
+	m_arriveText.setFillColor(sf::Color::Yellow);
+	m_arriveText.setString("ARRIVE");
+	m_arriveText.setPosition(0, 153);
 }
 
 
@@ -115,48 +140,36 @@ void Game::processGameEvents(sf::Event& event)
 /// <param name="time">update delta time</param>
 void Game::update(double dt)
 {
-	m_text.setString("Score: " + std::to_string(m_score));
-	
-	m_enemy.Update();
-	m_player.Update(); 
+	m_seekEnemy.update(m_player.getSprite());
+	m_fleeEnemy.update(m_player.getSprite());
+	m_wanderEnemy.update(m_player.getSprite());
+	m_arriveEnemy.update(m_player.getSprite());
+	m_player.update(); 
 
-	checkBoundaries(m_enemy.getSprite());
-	checkBoundaries(m_player.getSprite());
-	checkCollisions(m_player.getSprite(), m_enemy.getSprite());	
+	checkBoundaries(m_seekEnemy.getSprite());
+	checkBoundaries(m_fleeEnemy.getSprite());
+	checkBoundaries(m_wanderEnemy.getSprite());
+	checkBoundaries(m_arriveEnemy.getSprite());
+	checkBoundaries(m_player.getSprite());	
 }
-void Game::checkCollisions(sf::Sprite &p, sf::Sprite &e)
-{
-	if (p.getGlobalBounds().intersects(e.getGlobalBounds()))
-	{
-		m_enemy.setOnce(false);
-		srand((int)time(0));
-		float posX = (rand()% 1440) + 1;
-		float posY = (rand() % 900) + 1;
-		m_enemy.getSprite().setPosition(posX, posY);
-		m_score += 1;
-	}
-}
+
 void Game::checkBoundaries(sf::Sprite &s)
 {	
 	if (s.getPosition().x < 0)
 	{
 		s.setPosition(m_window.getSize().x - 1, s.getPosition().y);
-		m_enemy.setOnce(false);
 	}
 	if (s.getPosition().x > m_window.getSize().x)
 	{
 		s.setPosition(1, s.getPosition().y);
-		m_enemy.setOnce(false);
 	}
 	if (s.getPosition().y < 0)
 	{
 		s.setPosition(s.getPosition().x, m_window.getSize().y - 1);
-		m_enemy.setOnce(false);
 	}
 	if (s.getPosition().y > m_window.getSize().y)
 	{
 		s.setPosition(s.getPosition().x, 1);
-		m_enemy.setOnce(false);
 	}
 
 }
@@ -170,9 +183,16 @@ void Game::render()
 
 	// Draw sprites etc. here using m_window.draw()...
 	m_window.draw(m_backgroundImageSprite);
-	m_player.Render(m_window);
-	m_enemy.Render(m_window);
-	m_window.draw(m_text);
+	m_window.draw(m_seekText);
+	m_window.draw(m_arriveText);
+	m_window.draw(m_fleeText);
+	m_window.draw(m_wanderText);
+
+	m_player.render(m_window);
+	m_seekEnemy.render(m_window);
+	m_wanderEnemy.render(m_window);
+	m_fleeEnemy.render(m_window);
+	m_arriveEnemy.render(m_window);
 	// Now display on-screen everthing that has been rendered to the SFML window.
 	m_window.display();
 }

@@ -21,49 +21,50 @@ Player::Player(float posX, float posY, int rotation)
 	m_sprite.setPosition(posX, posY);
 	m_sprite.setOrigin(sf::Vector2f(m_sprite.getTexture()->getSize().x * 0.5, m_sprite.getTexture()->getSize().y * 0.5));
 }
-void Player::Move()
+void Player::move()
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
 	{
-		IncreaseSpeed();
+		increaseSpeed();
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Down))
 	{
-		DecreaseSpeed();
+		decreaseSpeed();
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Left))
 	{
-		DecreaseRotation();
+		decreaseRotation();
 	}
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Right))
 	{
-		IncreaseRotation();
+		increaseRotation();
 	}
+	
 }
-void Player::Update()
+void Player::update()
 {
-	Move();
+	move();
 	m_sprite.setPosition(m_sprite.getPosition().x + cos(m_rotation * DEG_TO_RAD) * m_speed,
 		m_sprite.getPosition().y + sin(m_rotation * DEG_TO_RAD) * m_speed);
 	m_sprite.setRotation(m_rotation);
 
 }
-void Player::IncreaseSpeed()
+void Player::increaseSpeed()
 {
-	if (m_speed < 1)
+	if (m_speed < m_maxSpeed)
 	{
 		m_speed += m_linearAccel;
 	}
 }
-void Player::DecreaseSpeed()
+void Player::decreaseSpeed()
 {
-	if (m_speed > -1)
+	if (m_speed > -m_maxSpeed)
 	{
 		m_speed -= m_linearAccel;
 	}
 }
 
-void Player::IncreaseRotation()
+void Player::increaseRotation()
 {
 	m_rotation += m_angularAccel;
 	if (m_rotation == 360.0)
@@ -72,7 +73,7 @@ void Player::IncreaseRotation()
 	}
 }
 
-void Player::DecreaseRotation()
+void Player::decreaseRotation()
 {
 	m_rotation -= m_angularAccel;
 	if (m_rotation == 0.0)
@@ -82,7 +83,7 @@ void Player::DecreaseRotation()
 }
 
 
-void Player::Render(sf::RenderWindow &window)
+void Player::render(sf::RenderWindow &window)
 {
 	window.draw(m_sprite);
 }
