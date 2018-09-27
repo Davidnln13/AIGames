@@ -19,7 +19,6 @@ public:
 	float getNewOrientation(float currentOrientation, sf::Vector2f currentVelocity);
 	float vectorLength(sf::Vector2f v);
 	sf::Vector2f vectorNormalise(sf::Vector2f v);
-	double static const RAD_TO_DEG;
 private:
 	sf::Sprite m_sprite;
 	sf::Texture m_texture;
@@ -29,6 +28,6 @@ private:
 	float randomNum;
 	float m_slowRadius = 10;
 	float m_timeToTarget = 1;
-	float m_orientation;
-	float m_maxOrientation = 90;
+	float m_orientation = 0;
+	float m_maxOrientation = 10;
 };

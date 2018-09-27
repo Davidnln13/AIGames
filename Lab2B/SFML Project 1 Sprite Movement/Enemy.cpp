@@ -2,7 +2,6 @@
 #include "Enemy.h"
 #include <cmath> 
 
-double const Enemy::RAD_TO_DEG = 180/M_PI;
 
 Enemy::Enemy(float posX, float posY, int rotation, std::string behaviour)
 {
@@ -69,13 +68,14 @@ void Enemy::wanderMove(sf::Sprite target)
 	m_velocity = target.getPosition() - m_sprite.getPosition();
 	m_velocity = vectorNormalise(m_velocity);
 	m_orientation = getNewOrientation(m_orientation, m_velocity);
+
 	randomNum = rand() % 10;
 	if (randomNum <= 4)
 		randomNum = 1;
 	else
 		randomNum = -1;
-	m_orientation = m_orientation +m_maxOrientation * randomNum;
-	m_velocity = sf::Vector2f(-sin(m_orientation), cos(m_orientation))*m_maxSpeed;
+	m_orientation = (m_orientation +m_maxOrientation) * randomNum;
+	m_velocity = sf::Vector2f(-sin(m_orientation*(M_PI / 180.0)), cos(m_orientation*(M_PI / 180.0)))*m_maxSpeed;
 }
 
 void Enemy::arriveMove(sf::Sprite target)
@@ -116,6 +116,7 @@ void Enemy::update(sf::Sprite target)
 		arriveMove(target);
 	}
 	m_sprite.move(sf::Vector2f(m_velocity.x, m_velocity.y));
+	m_sprite.setRotation(m_orientation);
 }
 
 void Enemy::render(sf::RenderWindow &window)
@@ -134,7 +135,7 @@ float Enemy::getNewOrientation(float currentOrientation, sf::Vector2f currentVel
 	// may want to convert to degrees.
 	if (vectorLength(currentVelocity) > 0)
 	{
-		return (atan2(-m_sprite.getPosition().x, m_sprite.getPosition().y)*RAD_TO_DEG);
+		return (atan2(-m_sprite.getPosition().x, m_sprite.getPosition().y)* (180 / M_PI));
 	}
 	else
 	{
