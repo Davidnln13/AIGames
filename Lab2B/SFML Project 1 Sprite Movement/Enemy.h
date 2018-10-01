@@ -29,5 +29,5 @@ private:
 	float m_slowRadius = 10;
 	float m_timeToTarget = 1;
 	float m_orientation = 0;
-	float m_maxOrientation = 10;
+	float m_maxOrientation = 0.1;
 };
