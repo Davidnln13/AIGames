@@ -75,7 +75,7 @@ void Enemy::wanderMove(sf::Sprite target)
 	//else
 	//	randomNum = -1;
 	//m_orientation = m_orientation + m_maxOrientation * randomNum;
-	m_velocity = sf::Vector2f(-sin(m_orientation), cos(m_orientation))*m_maxSpeed;
+	m_velocity = sf::Vector2f(-sin(m_orientation*(M_PI/180)), cos(m_orientation)*(M_PI/180))*m_maxSpeed;
 	std::cout << "velocity is " << m_velocity.x << ", " << m_velocity.y << " Orientation is " << m_orientation << std::endl;
 }
 
