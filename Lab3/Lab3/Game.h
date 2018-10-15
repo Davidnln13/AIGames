@@ -19,13 +19,10 @@ public:
 	void render();
 	void processEvents();
 	void processGameEvents(sf::Event&);
-	void collisionAvoidance();
+	sf::Vector2f collisionAvoidance();
 	float distance(sf::Vector2f a, sf::Vector2f b);
 	bool lineIntersects(sf::Vector2f a, sf::Vector2f a2, Enemy* obstacle);
-	//vector calculations
-	float vectorLength(sf::Vector2f v);
-	sf::Vector2f vectorNormalise(sf::Vector2f v);
-	Enemy findMostThreatening();
+	Enemy* findMostThreatening();
 
 	// main window
 	sf::RenderWindow m_window;

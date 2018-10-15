@@ -118,17 +118,27 @@ void Game::processGameEvents(sf::Event& event)
 	}
 }
 
-void Game::collisionAvoidance()
+sf::Vector2f Game::collisionAvoidance()
 {
 	for (int i = 0; i < obstacleArrayLength; i++)
 	{
-		ahead = m_obstacles[i]->getSprite().getPosition() + vectorNormalise(m_obstacles[i]->getVelocity()) * MAX_SEE_AHEAD;
-		ahead2 = m_obstacles[i]->getSprite().getPosition() + vectorNormalise(m_obstacles[i]->getVelocity()) * MAX_SEE_AHEAD * 0.5f;
+		ahead = m_obstacles[i]->getSprite().getPosition() + m_obstacles[i]->vectorNormalise(m_obstacles[i]->getVelocity()) * MAX_SEE_AHEAD;
+		ahead2 = m_obstacles[i]->getSprite().getPosition() + m_obstacles[i]->vectorNormalise(m_obstacles[i]->getVelocity()) * MAX_SEE_AHEAD * 0.5f;
 
-		avoidanceForce = ahead - m_obstacles[i]->getSprite().getOrigin();
-		avoidanceForce = vectorNormalise(avoidanceForce) * MAX_AVOID_FORCE;
+		Enemy* mostThreatening = findMostThreatening();
 
-		Enemy mostThreatening = findMostThreatening();
+		if (mostThreatening != nullptr)
+		{
+			avoidanceForce = ahead - mostThreatening->getSprite().getPosition();
+			avoidanceForce = m_obstacles[i]->vectorNormalise(avoidanceForce) * MAX_AVOID_FORCE;
+		}
+		else
+		{
+			avoidanceForce.x *= 0;
+			avoidanceForce.y *= 0;
+		}
+		//return avoidanceForce;
+		return sf::Vector2f(0, 0);
 	}
 }
 
@@ -139,55 +149,44 @@ float Game::distance(sf::Vector2f a, sf::Vector2f b)
 
 bool Game::lineIntersects(sf::Vector2f a, sf::Vector2f a2, Enemy* obstacle)
 {
-	return distance(obstacle->getSprite().getOrigin(), a) <= obstacle.getRadius() || distance(obstacle.getOrigin(), a2) <= obstacle.getRadius();
+	return distance(obstacle->getSprite().getPosition(), a) <= obstacle->getSprite().getGlobalBounds().width/2 ||
+		   distance(obstacle->getSprite().getPosition(), a2) <= obstacle->getSprite().getGlobalBounds().width / 2;
 }
 
-Enemy Game::findMostThreatening()
+Enemy* Game::findMostThreatening()
 {
 	Enemy* mostThreatening = nullptr;
 
 	for (int i = 0; i < obstacleArrayLength; i++)
 	{
-		bool collision = lineIntersects(ahead, ahead2, m_obstacles[i]);
+		for (int j = 1; j < obstacleArrayLength; j++)
+		{
+			bool collision = lineIntersects(ahead, ahead2, m_obstacles[j]);
 
-		// "position" is the character's current position
-		if (collision && (mostThreatening == nullptr || distance(m_obstacles[i]->getSprite().getPosition(), m_obstacles[i]) < distance(position, mostThreatening))) {
-			mostThreatening = obstacle;
+			// "position" is the character's current position
+			if (collision && (mostThreatening == nullptr || distance(m_obstacles[i]->getSprite().getPosition(), m_obstacles[j]->getSprite().getPosition()) 
+				< distance(m_obstacles[i]->getSprite().getPosition(), mostThreatening->getSprite().getPosition()))) {
+				mostThreatening = m_obstacles[j];
+			}
 		}
 	}
 	return mostThreatening;
 }
 
-float Enemy::vectorLength(sf::Vector2f v)
-{
-	float magnitudeV = sqrt((v.x * v.x) + (v.y * v.y));
-	return magnitudeV;
-}
 
-sf::Vector2f Enemy::vectorNormalise(sf::Vector2f v)
-{
-	float mag = vectorLength(v);
-	if (mag != 0)
-	{
-		return sf::Vector2f(v.x / mag, v.y / mag);
-	}
-	else
-	{
-		return sf::Vector2f(v.x, v.y);
-	}
-
-}
 /// <summary>
 /// Method to handle all game updates
 /// </summary>
 /// <param name="time">update delta time</param>
 void Game::update(double dt)
 {
-	m_dynamicSeekEnemy.update(m_player);
-	m_pursueEnemy.update(m_player);
-	m_dynamicWanderEnemy.update(m_player);
-	m_dynamicArriveEnemy.update(m_player);
-	m_dynamicArriveEnemy2.update(m_player);
+	sf::Vector2f avoidForce = collisionAvoidance();
+
+	m_dynamicSeekEnemy.update(m_player, avoidForce);
+	m_pursueEnemy.update(m_player, avoidForce);
+	m_dynamicWanderEnemy.update(m_player, avoidForce);
+	m_dynamicArriveEnemy.update(m_player, avoidForce);
+	m_dynamicArriveEnemy2.update(m_player, avoidForce);
 	m_player->update(); 
 
 	checkBoundaries(m_dynamicSeekEnemy.getSprite());
@@ -197,7 +196,6 @@ void Game::update(double dt)
 	checkBoundaries(m_dynamicArriveEnemy2.getSprite());
 	checkBoundaries(m_player->getSprite());	
 
-	collisionAvoidance();
 }
 void Game::checkBoundaries(sf::Sprite &s)
 {	

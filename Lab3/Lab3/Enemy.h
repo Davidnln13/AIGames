@@ -11,15 +11,15 @@ public:
 	Enemy(sf::Vector2f position, std::string behaviour, float maxSpeed);
 	~Enemy();
 	//behaviour functions 
-	void seekMove(Player* p);
-	void pursueMove(Player* p);
-	void fleeMove(Player* p);
-	void wanderMove(Player* p);
-	void arriveMove(Player* p);
+	void seekMove(Player* p, sf::Vector2f avoidForce);
+	void pursueMove(Player* p, sf::Vector2f avoidForce);
+	void fleeMove(Player* p, sf::Vector2f avoidForce);
+	void wanderMove(Player* p, sf::Vector2f avoidForce);
+	void arriveMove(Player* p, sf::Vector2f avoidForce);
 	sf::Vector2f truncate(sf::Vector2f v, float max);
 	sf::Vector2f wanderCalc();
 	void setAngle(sf::Vector2f& v, float f);
-	void update(Player* p);
+	void update(Player* p, sf::Vector2f avoidForce);
 	void render(sf::RenderWindow& window);
 	//getters
 	sf::Sprite& getSprite();

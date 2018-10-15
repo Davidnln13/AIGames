@@ -63,7 +63,7 @@ Enemy::~Enemy()
 {
 
 }
-void Enemy::seekMove(Player* p)
+void Enemy::seekMove(Player* p, sf::Vector2f avoidForce)
 {
 	//old seek
 	/*m_velocity = target.getPosition() - m_sprite.getPosition();
@@ -75,7 +75,7 @@ void Enemy::seekMove(Player* p)
 	m_desiredVelocity = vectorNormalise(m_desiredVelocity);
 	m_desiredVelocity = sf::Vector2f(m_desiredVelocity.x * m_maxSpeed, m_desiredVelocity.y * m_maxSpeed);
 
-	m_steering = m_desiredVelocity - m_velocity;
+	m_steering = m_desiredVelocity - m_velocity + avoidForce;
 	m_steering = truncate(m_steering, 10.0f);
 
 	m_velocity = truncate(m_velocity + m_steering, m_maxSpeed); 
@@ -84,7 +84,7 @@ void Enemy::seekMove(Player* p)
 	//std::cout << "velocity is " << m_velocity.x << ", " << m_velocity.y << " Orientation is " << m_orientation << std::endl;
 }
 
-void Enemy::fleeMove(Player* p)
+void Enemy::fleeMove(Player* p, sf::Vector2f avoidForce)
 {
 	m_velocity = m_sprite.getPosition() - p->getSprite().getPosition();
 	m_velocity = vectorNormalise(m_velocity);
@@ -92,7 +92,7 @@ void Enemy::fleeMove(Player* p)
 	m_orientation = getNewOrientationByPosition(m_orientation, m_velocity);
 }
 
-void Enemy::pursueMove(Player* p)
+void Enemy::pursueMove(Player* p, sf::Vector2f avoidForce)
 {
   m_desiredVelocity  = p->getSprite().getPosition() - m_sprite.getPosition();
   m_noOfIterationsAhead = vectorLength(m_desiredVelocity)/m_maxSpeed;
@@ -102,13 +102,13 @@ void Enemy::pursueMove(Player* p)
   m_desiredVelocity = m_futurePos - m_sprite.getPosition();
   m_desiredVelocity = vectorNormalise(m_desiredVelocity);
   m_desiredVelocity = sf::Vector2f(m_desiredVelocity.x * m_maxSpeed, m_desiredVelocity.y * m_maxSpeed);
-  m_steering = m_desiredVelocity - m_velocity;
+  m_steering = m_desiredVelocity - m_velocity + avoidForce;
   m_steering = truncate(m_steering, 10.0f);
   m_velocity = truncate(m_velocity + m_steering, m_maxSpeed);
   m_orientation = getNewOrientationByVelocity(m_orientation, m_velocity);
 }
 
-void Enemy::wanderMove(Player* p)
+void Enemy::wanderMove(Player* p, sf::Vector2f avoidForce)
 {
 	//old wander
 	//m_velocity = target->getPosition() - m_sprite.getPosition();
@@ -130,7 +130,7 @@ void Enemy::wanderMove(Player* p)
 	////std::cout << "velocity is " << m_velocity.x << ", " << m_velocity.y << " Orientation is " << m_orientation << std::endl;
 
 	// Calculate the wander force#
-	m_steering = wanderCalc();
+	m_steering = wanderCalc() + avoidForce;
 	m_steering = truncate(m_steering, 10.0f);
 	m_velocity = truncate(m_velocity + m_steering, m_maxSpeed);
 	m_orientation = getNewOrientationByVelocity(m_orientation, m_velocity);
@@ -169,7 +169,7 @@ void Enemy::setAngle(sf::Vector2f& v, float f)
 	v.y = sin(f* (M_PI / 180.0f)) * len;
 
 }
-void Enemy::arriveMove(Player* p)
+void Enemy::arriveMove(Player* p, sf::Vector2f avoidForce)
 {
 	//old arrival
 	/*m_velocity = target.getPosition() - m_sprite.getPosition();
@@ -205,7 +205,7 @@ void Enemy::arriveMove(Player* p)
 	}
 
 	// Set the steering based on this
-	m_steering = m_desiredVelocity - m_velocity;
+	m_steering = m_desiredVelocity - m_velocity + avoidForce;
 	m_velocity = truncate(m_velocity + m_steering, m_maxSpeed);
 	m_orientation = getNewOrientationByVelocity(m_orientation, m_velocity);
 	//if (m_behaviour == "ARRIVE F")
@@ -224,27 +224,27 @@ sf::Vector2f Enemy::truncate(sf::Vector2f v, float max)
 }
 
 
-void Enemy::update(Player* p)
+void Enemy::update(Player* p, sf::Vector2f avoidForce)
 {
 	if (m_behaviour == "SEEK")
 	{
-		seekMove(p);
+		seekMove(p, avoidForce);
 	}
 	else if (m_behaviour == "PURSUE")
 	{
-		pursueMove(p);
+		pursueMove(p, avoidForce);
 	}
 	else if (m_behaviour == "FLEE")
 	{
-		fleeMove(p);
+		fleeMove(p, avoidForce);
 	}
 	else if (m_behaviour == "WANDER")
 	{
-		wanderMove(p);
+		wanderMove(p, avoidForce);
 	}
 	else if (m_behaviour == "ARRIVE S" || m_behaviour == "ARRIVE F")
 	{
-		arriveMove(p);
+		arriveMove(p, avoidForce);
 		
 	}
 	m_text.setPosition(m_sprite.getPosition().x - 80, m_sprite.getPosition().y - 60);
