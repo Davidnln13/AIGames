@@ -1,5 +1,6 @@
 #include "Game.h"
 #include <cstdlib>
+#include <limits>
 /// <summary>
 /// @author David Nolan
 /// @date September 2018
@@ -26,8 +27,18 @@ Game::Game()
 	m_pursueEnemy(sf::Vector2f(570, 450),"PURSUE",0.1),
 	m_dynamicWanderEnemy(sf::Vector2f(570, 300),"WANDER",0.1),
 	m_dynamicArriveEnemy(sf::Vector2f(570, 600),"ARRIVE S",0.1),
-	m_dynamicArriveEnemy2(sf::Vector2f(570, 750),"ARRIVE F",0.2)
+	m_dynamicArriveEnemy2(sf::Vector2f(570, 750),"ARRIVE F",0.2),
+	ahead(0, 0),
+	ahead2(0, 0),
+	avoidanceForce(0, 0)
 {
+	//obstacles
+	m_obstacles[0] = &m_dynamicSeekEnemy;
+	m_obstacles[1] = &m_pursueEnemy;
+	m_obstacles[2] = &m_dynamicWanderEnemy;
+	m_obstacles[3] = &m_dynamicArriveEnemy;
+	m_obstacles[4] = &m_dynamicArriveEnemy2;
+
 	if (!m_backgroundImageTexture.loadFromFile("background.jpg"))
 	{
 		std::string s("Error loading texture");
@@ -107,6 +118,65 @@ void Game::processGameEvents(sf::Event& event)
 	}
 }
 
+void Game::collisionAvoidance()
+{
+	for (int i = 0; i < obstacleArrayLength; i++)
+	{
+		ahead = m_obstacles[i]->getSprite().getPosition() + vectorNormalise(m_obstacles[i]->getVelocity()) * MAX_SEE_AHEAD;
+		ahead2 = m_obstacles[i]->getSprite().getPosition() + vectorNormalise(m_obstacles[i]->getVelocity()) * MAX_SEE_AHEAD * 0.5f;
+
+		avoidanceForce = ahead - m_obstacles[i]->getSprite().getOrigin();
+		avoidanceForce = vectorNormalise(avoidanceForce) * MAX_AVOID_FORCE;
+
+		Enemy mostThreatening = findMostThreatening();
+	}
+}
+
+float Game::distance(sf::Vector2f a, sf::Vector2f b)
+{
+	return sqrt((a.x - b.x) * (a.x - b.x) + (a.y - b.y) * (a.y - b.y));
+}
+
+bool Game::lineIntersects(sf::Vector2f a, sf::Vector2f a2, Enemy* obstacle)
+{
+	return distance(obstacle->getSprite().getOrigin(), a) <= obstacle.getRadius() || distance(obstacle.getOrigin(), a2) <= obstacle.getRadius();
+}
+
+Enemy Game::findMostThreatening()
+{
+	Enemy* mostThreatening = nullptr;
+
+	for (int i = 0; i < obstacleArrayLength; i++)
+	{
+		bool collision = lineIntersects(ahead, ahead2, m_obstacles[i]);
+
+		// "position" is the character's current position
+		if (collision && (mostThreatening == nullptr || distance(m_obstacles[i]->getSprite().getPosition(), m_obstacles[i]) < distance(position, mostThreatening))) {
+			mostThreatening = obstacle;
+		}
+	}
+	return mostThreatening;
+}
+
+float Enemy::vectorLength(sf::Vector2f v)
+{
+	float magnitudeV = sqrt((v.x * v.x) + (v.y * v.y));
+	return magnitudeV;
+}
+
+sf::Vector2f Enemy::vectorNormalise(sf::Vector2f v)
+{
+	float mag = vectorLength(v);
+	if (mag != 0)
+	{
+		return sf::Vector2f(v.x / mag, v.y / mag);
+	}
+	else
+	{
+		return sf::Vector2f(v.x, v.y);
+	}
+
+}
 /// <summary>
 /// Method to handle all game updates
 /// </summary>
@@ -126,8 +196,9 @@ void Game::update(double dt)
 	checkBoundaries(m_dynamicArriveEnemy.getSprite());
 	checkBoundaries(m_dynamicArriveEnemy2.getSprite());
 	checkBoundaries(m_player->getSprite());	
-}
 
+	collisionAvoidance();
+}
 void Game::checkBoundaries(sf::Sprite &s)
 {	
 	if (s.getPosition().x < 0)

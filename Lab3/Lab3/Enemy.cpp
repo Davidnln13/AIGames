@@ -57,6 +57,7 @@ Enemy::Enemy(sf::Vector2f position, std::string behaviour, float maxSpeed) :
 	m_sprite.setPosition(m_position);
 	m_sprite.setRotation(m_orientation);
 	m_sprite.setOrigin(sf::Vector2f(m_sprite.getTexture()->getSize().x * 0.5, m_sprite.getTexture()->getSize().y * 0.5));
+
 }
 Enemy::~Enemy()
 {
@@ -260,6 +261,11 @@ void Enemy::render(sf::RenderWindow &window)
 sf::Sprite& Enemy::getSprite()
 {
 	return m_sprite;
+}
+
+sf::Vector2f Enemy::getVelocity()
+{
+	return m_velocity;
 }
 
 float Enemy::getNewOrientationByPosition(float currentOrientation, sf::Vector2f currentVelocity)

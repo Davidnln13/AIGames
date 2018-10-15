@@ -21,8 +21,9 @@ public:
 	void setAngle(sf::Vector2f& v, float f);
 	void update(Player* p);
 	void render(sf::RenderWindow& window);
-	//getter
+	//getters
 	sf::Sprite& getSprite();
+	sf::Vector2f getVelocity();
 	//orientation based on ..
 	float getNewOrientationByVelocity(float currentOrientation, sf::Vector2f currentVelocity);
 	float getNewOrientationByPosition(float currentOrientation, sf::Vector2f currentVelocity);
@@ -56,4 +57,6 @@ private:
 	//pursue
 	sf::Vector2f m_futurePos;
 	int m_noOfIterationsAhead;
+
+
 };
