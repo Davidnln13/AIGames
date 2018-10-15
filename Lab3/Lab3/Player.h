@@ -6,10 +6,14 @@ class Player
 {
 public:
 	Player(float posX, float posY, int rotation);
+	~Player();
 	void move();
 	void update();
 	void render(sf::RenderWindow& window);
+	//getters
 	sf::Sprite& getSprite();
+	sf::Vector2f getVelocity();
+
 	void increaseSpeed();
 	void decreaseSpeed();
 	void increaseRotation();

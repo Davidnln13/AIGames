@@ -23,19 +23,14 @@ public:
 	// main window
 	sf::RenderWindow m_window;
 private:
-	Player m_player;
-	Enemy m_seekEnemy;
-	Enemy m_fleeEnemy;
-	Enemy m_wanderEnemy;
-	Enemy m_arriveEnemy;
+	Player* m_player;
+	Enemy m_dynamicSeekEnemy;
+	Enemy m_dynamicWanderEnemy;
+	Enemy m_dynamicArriveEnemy;
+	Enemy m_dynamicArriveEnemy2;
+	Enemy m_pursueEnemy;
+	//Enemy m_fleeEnemy;
 
 	sf::Sprite m_backgroundImageSprite;
 	sf::Texture m_backgroundImageTexture;
-
-	sf::Font m_font;
-	sf::Text m_seekText;
-	sf::Text m_wanderText;
-	sf::Text m_fleeText;
-	sf::Text m_arriveText;
-
 };

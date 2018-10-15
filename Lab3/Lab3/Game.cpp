@@ -21,16 +21,13 @@ static double const MS_PER_UPDATE = 10.0;
 Game::Game()
 	: 
 	m_window(sf::VideoMode(1440, 900, 32), "SFML Playground", sf::Style::Default),
-	m_player(270,450,0),
-	m_seekEnemy(570,150,0, "SEEK"),
-	m_fleeEnemy(570, 450,0,"FLEE"),
-	m_wanderEnemy(570,300,0, "WANDER"),
-	m_arriveEnemy(570,600,0,"ARRIVE")
+	m_player(new Player(270,450,0)),
+	m_dynamicSeekEnemy(sf::Vector2f(570,150),"SEEK",0.1),
+	m_pursueEnemy(sf::Vector2f(570, 450),"PURSUE",0.1),
+	m_dynamicWanderEnemy(sf::Vector2f(570, 300),"WANDER",0.1),
+	m_dynamicArriveEnemy(sf::Vector2f(570, 600),"ARRIVE S",0.1),
+	m_dynamicArriveEnemy2(sf::Vector2f(570, 750),"ARRIVE F",0.2)
 {
-	if (!m_font.loadFromFile("arial.ttf"))
-	{
-
-	}
 	if (!m_backgroundImageTexture.loadFromFile("background.jpg"))
 	{
 		std::string s("Error loading texture");
@@ -41,30 +38,6 @@ Game::Game()
 		m_backgroundImageSprite.setTexture(m_backgroundImageTexture);
 	}
 	m_backgroundImageSprite.setScale(2, 2);
-
-	m_seekText.setFont(m_font);
-	m_seekText.setCharacterSize(50);
-	m_seekText.setFillColor(sf::Color::Red);
-	m_seekText.setString("SEEK");
-	m_seekText.setPosition(0, 0);
-
-	m_wanderText.setFont(m_font);
-	m_wanderText.setCharacterSize(50);
-	m_wanderText.setFillColor(sf::Color::Blue);
-	m_wanderText.setString("WANDER");
-	m_wanderText.setPosition(0, 51);
-
-	m_fleeText.setFont(m_font);
-	m_fleeText.setCharacterSize(50);
-	m_fleeText.setFillColor(sf::Color::Green);
-	m_fleeText.setString("FLEE");
-	m_fleeText.setPosition(0, 102);
-
-	m_arriveText.setFont(m_font);
-	m_arriveText.setCharacterSize(50);
-	m_arriveText.setFillColor(sf::Color::Yellow);
-	m_arriveText.setString("ARRIVE");
-	m_arriveText.setPosition(0, 153);
 }
 
 
@@ -140,17 +113,19 @@ void Game::processGameEvents(sf::Event& event)
 /// <param name="time">update delta time</param>
 void Game::update(double dt)
 {
-	m_seekEnemy.update(m_player.getSprite());
-	m_fleeEnemy.update(m_player.getSprite());
-	m_wanderEnemy.update(m_player.getSprite());
-	m_arriveEnemy.update(m_player.getSprite());
-	m_player.update(); 
+	m_dynamicSeekEnemy.update(m_player);
+	m_pursueEnemy.update(m_player);
+	m_dynamicWanderEnemy.update(m_player);
+	m_dynamicArriveEnemy.update(m_player);
+	m_dynamicArriveEnemy2.update(m_player);
+	m_player->update(); 
 
-	checkBoundaries(m_seekEnemy.getSprite());
-	checkBoundaries(m_fleeEnemy.getSprite());
-	checkBoundaries(m_wanderEnemy.getSprite());
-	checkBoundaries(m_arriveEnemy.getSprite());
-	checkBoundaries(m_player.getSprite());	
+	checkBoundaries(m_dynamicSeekEnemy.getSprite());
+	checkBoundaries(m_pursueEnemy.getSprite());
+	checkBoundaries(m_dynamicWanderEnemy.getSprite());
+	checkBoundaries(m_dynamicArriveEnemy.getSprite());
+	checkBoundaries(m_dynamicArriveEnemy2.getSprite());
+	checkBoundaries(m_player->getSprite());	
 }
 
 void Game::checkBoundaries(sf::Sprite &s)
@@ -183,16 +158,13 @@ void Game::render()
 
 	// Draw sprites etc. here using m_window.draw()...
 	m_window.draw(m_backgroundImageSprite);
-	m_window.draw(m_seekText);
-	m_window.draw(m_arriveText);
-	m_window.draw(m_fleeText);
-	m_window.draw(m_wanderText);
 
-	m_player.render(m_window);
-	m_seekEnemy.render(m_window);
-	m_wanderEnemy.render(m_window);
-	m_fleeEnemy.render(m_window);
-	m_arriveEnemy.render(m_window);
+	m_player->render(m_window);
+	m_dynamicSeekEnemy.render(m_window);
+	m_dynamicWanderEnemy.render(m_window);
+	m_pursueEnemy.render(m_window);
+	m_dynamicArriveEnemy.render(m_window);
+	m_dynamicArriveEnemy2.render(m_window);
 	// Now display on-screen everthing that has been rendered to the SFML window.
 	m_window.display();
 }

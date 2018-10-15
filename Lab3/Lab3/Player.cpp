@@ -21,6 +21,10 @@ Player::Player(float posX, float posY, int rotation)
 	m_sprite.setPosition(posX, posY);
 	m_sprite.setOrigin(sf::Vector2f(m_sprite.getTexture()->getSize().x * 0.5, m_sprite.getTexture()->getSize().y * 0.5));
 }
+Player::~Player()
+{
+
+}
 void Player::move()
 {
 	if (sf::Keyboard::isKeyPressed(sf::Keyboard::Up))
@@ -91,5 +95,10 @@ void Player::render(sf::RenderWindow &window)
 sf::Sprite& Player::getSprite()
 {
 	return m_sprite;
+}
+
+sf::Vector2f Player::getVelocity()
+{
+	return sf::Vector2f(cos(m_rotation * DEG_TO_RAD) * m_speed, sin(m_rotation * DEG_TO_RAD) * m_speed);
 }
 
