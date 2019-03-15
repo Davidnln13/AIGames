@@ -1,0 +1,213 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
+    </Filter>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Header Files\Helper Headers">
+      <UniqueIdentifier>{db0beade-7215-4093-b177-99040a6ba7a8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Helper Source">
+      <UniqueIdentifier>{f9e0f0cc-9535-40a3-a071-64843fef4295}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Scene Headers">
+      <UniqueIdentifier>{c2aca898-4a3f-4b9c-b7ae-2d2d1a6dbbc8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Scene Source">
+      <UniqueIdentifier>{755fe53c-589f-4084-9cdc-080981310e4b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Game Source">
+      <UniqueIdentifier>{209f9761-3fc7-40de-8a4f-86a81614f271}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Game Headers">
+      <UniqueIdentifier>{bab7d70c-ed6d-44ff-abe5-d49e7faf0202}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\Physics Source">
+      <UniqueIdentifier>{43e8f8cc-35ab-46fd-bbd0-d70ae249a484}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Physics Header">
+      <UniqueIdentifier>{f9f02c3b-0394-4d6e-8e32-e38c28a852f2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\AI Headers">
+      <UniqueIdentifier>{24f78f1b-d82e-43b1-85e5-d1675db8f690}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\AI Source">
+      <UniqueIdentifier>{8d5ce8e5-fe9f-4ccc-b0dd-7d1f9b488089}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Header\Game.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\InputHandler.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Vector2f.h">
+      <Filter>Header Files\Helper Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\CollisionCircle.h">
+      <Filter>Header Files\Helper Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\CollisionBox.h">
+      <Filter>Header Files\Helper Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\SceneManager.h">
+      <Filter>Header Files\Scene Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Scene.h">
+      <Filter>Header Files\Scene Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\ResourceManager.h">
+      <Filter>Header Files\Helper Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Player.h">
+      <Filter>Header Files\Game Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\GameScene.h">
+      <Filter>Header Files\Scene Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Environment.h">
+      <Filter>Header Files\Game Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Door.h">
+      <Filter>Header Files\Game Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Collisions.h">
+      <Filter>Header Files\Helper Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\PhysicsBody.h">
+      <Filter>Header Files\Physics Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\PhysicsHandler.h">
+      <Filter>Header Files\Physics Header</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\LevelLoader.h">
+      <Filter>Header Files\Helper Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\AI.h">
+      <Filter>Header Files\AI Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Nest.h">
+      <Filter>Header Files\AI Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Predator.h">
+      <Filter>Header Files\AI Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Sweeper.h">
+      <Filter>Header Files\AI Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Worker.h">
+      <Filter>Header Files\AI Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Grid.h">
+      <Filter>Header Files\Game Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Worker.h">
+      <Filter>Header Files\AI Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\PlayerBullet.h">
+      <Filter>Header Files\Game Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\EnemyBullet.h">
+      <Filter>Header Files\AI Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\Hud.h">
+      <Filter>Header Files\Game Headers</Filter>
+    </ClInclude>
+    <ClInclude Include="Header\NestMissile.h">
+      <Filter>Header Files\AI Headers</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="Source\Game.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\InputHandler.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CollisionBox.cpp">
+      <Filter>Source Files\Helper Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\CollisionCircle.cpp">
+      <Filter>Source Files\Helper Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Vector2f.cpp">
+      <Filter>Source Files\Helper Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\SceneManager.cpp">
+      <Filter>Source Files\Scene Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\ResourceManager.cpp">
+      <Filter>Source Files\Helper Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Player.cpp">
+      <Filter>Source Files\Game Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\GameScene.cpp">
+      <Filter>Source Files\Scene Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Environment.cpp">
+      <Filter>Source Files\Game Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Door.cpp">
+      <Filter>Source Files\Game Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Collisions.cpp">
+      <Filter>Source Files\Helper Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PhysicsBody.cpp">
+      <Filter>Source Files\Physics Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PhysicsHandler.cpp">
+      <Filter>Source Files\Physics Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\LevelLoader.cpp">
+      <Filter>Source Files\Helper Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\AI.cpp">
+      <Filter>Source Files\AI Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Nest.cpp">
+      <Filter>Source Files\AI Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Predator.cpp">
+      <Filter>Source Files\AI Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Sweeper.cpp">
+      <Filter>Source Files\AI Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Worker.cpp">
+      <Filter>Source Files\AI Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Grid.cpp">
+      <Filter>Source Files\Game Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Worker.cpp">
+      <Filter>Source Files\AI Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\PlayerBullet.cpp">
+      <Filter>Source Files\Game Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\EnemyBullet.cpp">
+      <Filter>Source Files\AI Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\Hud.cpp">
+      <Filter>Source Files\Game Source</Filter>
+    </ClCompile>
+    <ClCompile Include="Source\NestMissile.cpp">
+      <Filter>Source Files\AI Source</Filter>
+    </ClCompile>
+  </ItemGroup>
+</Project>
