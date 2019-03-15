@@ -1,0 +1,63 @@
+        private void btnLearn_Click(object sender, EventArgs e)
+        {
+            int i;
+            int iterations = 0;
+            bool error = true;
+
+            maxIterations = int.Parse(txtIterations.Text);
+
+            Random rnd = new Random();
+
+            //            w0 = rnd.NextDouble();
+            //            w1 = rnd.NextDouble();
+            //            w2 = rnd.NextDouble();
+            w0 = 0;
+            w1 = 1;
+            w2 = 0.5;
+
+            eta = (double)trackLearningRate.Value / 1000;
+
+            Debug.Write("wo = " + w0);
+            Debug.Write(", w1 = " + w1);
+            Debug.WriteLine(", w2 = " + w2);
+
+            while (error && iterations < maxIterations)
+            {
+                error = false;
+
+                for (i = 0; i <= samples.Count - 1; i++)
+                {
+                    double x1 = samples[i].X1;
+                    double x2 = samples[i].X2;
+                    int y;
+
+                    if (((w1 * x1) + (w2 * x2) + w0) < 0)
+                    {
+                        y = -1;
+                    }
+                    else
+                    {
+                        y = 1;
+                    }
+
+                    if (y != samples[i].Class)
+                    {
+                        error = true;
+
+                        w0 = w0 + eta * (samples[i].Class) * x0;
+                        w1 = w1 + eta * (samples[i].Class) * x1;
+                        w2 = w2 + eta * (samples[i].Class) * x2;
+                        Debug.WriteLine("W0 = " + w0);
+                        Debug.WriteLine("W1 = " + w1);
+                        Debug.WriteLine("W2 = " + w0);
+                        Debug.WriteLine("=========");
+                    }
+                }
+                Debug.Write("w0 = " + w0);
+                Debug.Write(", w1 = " + w1);
+                Debug.WriteLine(", w2 = " + w2);
+                objGraphics.Clear(Color.White);
+                DrawSeparationLine();
+                iterations++;
+            }
+        }
